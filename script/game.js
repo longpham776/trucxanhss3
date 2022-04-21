@@ -104,8 +104,15 @@ class Game extends Node {
         this.addChild(this.reset);
     }
     gameComplete(){
+        let text = "You wanna try again! (Yes|No)";
         if(this.score <= 0) {
-            alert("You Lose!");
+            if(confirm(text) == true) {
+                this._init();
+                this.resetGame();
+            }else {
+                document.getElementsByTagName("div")[0].innerHTML="";
+                this.playGame();
+            }
         }
     }
 }

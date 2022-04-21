@@ -8,7 +8,6 @@ export class Label extends Node {
         this._color = "";
         this._backgroundColor = "";
     }
-
     get text() {
         return this._text;
     }
