@@ -164,7 +164,7 @@ class Game extends Node {
                     document.getElementsByTagName("div")[0].innerHTML="";
                     this.playGame();
                 }
-            },3200);
+            },1000);
         }
     }
 }
