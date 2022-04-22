@@ -6,8 +6,25 @@ export class Node { // entity
         this._height = 0;
         this.elm = this._createElement();
         this.children = [];
+        this._scaleX = 1;
+        this._scaleY = 1;
     }
-
+    
+    get scaleX(){
+        return this._scaleX;
+    }
+    set scaleX(value){
+        this._scaleX = value;
+        this.elm.style.transform = `scaleX(${this._scaleX})`;
+    }
+    get scaleY(){
+        return this._scaleY;
+    }
+    set scaleY(value){
+        this._scaleY = value;
+        this.elm.style.transform = `scaleY(${this._scaleY})`;
+    }
+    
     get x() { return this._x; }
     set x(value) {
         this._x = value;

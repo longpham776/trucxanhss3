@@ -3,8 +3,15 @@ export class Sprite extends Node {
     constructor() {
         super();
         this._path = "";
+        this._zIndex = 0;
     }
-
+    get zIndex(){
+        return this._zIndex;
+    }
+    set zIndex(value){
+        this._zIndex = value;
+        this.elm.style.zIndex = value;
+    }
     get path(){
         return this._path;
     }

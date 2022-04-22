@@ -40,15 +40,37 @@ export class Card extends Node {
         this.value = value;
         this.sprite.path = "./images/trucxanh" + value + ".jpg";
     }
-    open() {
-        this.cover.elm.style.display = "none";
-        this.label.elm.style.display = "none";
+    flipCard() {
+        const tl = gsap.timeline({ paused: true });
+        tl.to(this.sprite, { scaleX: 0, duration: 0 });
+        tl.to(this.label, { scaleX: 0, duration: 0 });
+        tl.to(this.cover, { scaleX: 0, duration: 0.2 });
+        tl.to(this.sprite, { scaleX: 1, duration: 0.2 });
+        tl.play();
     }
-    close() {
-        this.cover.elm.style.display = "block";
-        this.label.elm.style.display = "block";
+    flopCard() {
+        const tl = gsap.timeline({ paused: true });
+        tl.to(this.sprite, { scaleX: 0, duration: 0.2 });
+        tl.to(this.cover, { scaleX: 1, duration: 0.2 });
+        tl.to(this.label, { scaleX: 1, duration: 0.2 });
+        tl.play();
     }
-    hide() {
-        this.sprite.elm.style.display = "none";
+    scaleHideImage() {
+        this.sprite.zIndex = 1;
+        gsap.to(this.sprite,{scaleX: 1,scaleY: 1, width: 200, height:200,x:-50,y:-50, duration: 1});
+        setTimeout(()=>{
+            this.sprite.elm.style.display = "none";
+        },1000)
     }
+    // open() {
+    //     this.cover.elm.style.display = "none";
+    //     this.label.elm.style.display = "none";
+    // }
+    // close() {
+    //     this.cover.elm.style.display = "block";
+    //     this.label.elm.style.display = "block";
+    // }
+    // hide() {
+    //     this.sprite.elm.style.display = "none";
+    // }
 }
