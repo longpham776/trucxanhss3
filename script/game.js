@@ -27,7 +27,7 @@ class Game extends Node {
         this.addChild(this.play);
     }
     playSound(soundId){
-        this.sound = new Audio("./sounds/"+soundId+".wav");
+        this.sound = new Audio("sounds/"+soundId+".wav");
         this.sound.play();
     }
     _createCards() {
