@@ -9,25 +9,53 @@ class Game extends Node {
         this.playGame();
     }
     _init() {
-        document.getElementsByTagName("div")[0].innerHTML="";
-        this.soundId = {0:"music",1:"click",2:"match",3:"lose",4:"loading",5:"win"};
-        this.count = 0;
-        this._createCards();
-        this._createScore();
-        this.resetGame();
+        this.play.path = "./images/playButton_mouseclick.jpg";
+        setTimeout(()=>{
+            document.getElementsByTagName("div")[0].innerHTML="";
+            this.soundId = {0:"music",1:"click",2:"match",3:"lose",4:"loading",5:"win"};
+            this.count = 0;
+            this._createCards();
+            this._createScore();
+            this.score += 10000;
+            gsap.to(this.label,{text: this.score,duration: 6, snap:"text"});
+            setTimeout(()=>{
+                this.resetGame();
+            },6000);
+        },100);
     }
     playGame(){
-        this.play = new Label();
-        this.play.elm.addEventListener("click",this._init.bind(this,this.play));
+        this.play = new Sprite();
         this.play.x = 130;
-        this.play.backgroundColor = "white";
-        this.play.fontSize = 50;
-        this.play.fontColor = "red";
-        this.play.text = "PlayGame";
+        this.play.height = 300;
+        this.play.width = 300;
+        this.play.path = "./images/playButton_mouseout.jpg";
+        this.play.elm.addEventListener("click",this._init.bind(this,this.play));
+        this.play.elm.addEventListener("mousemove",()=>{
+            this.play.path = "./images/playButton_mousemove.jpg";
+        });
+        this.play.elm.addEventListener("mouseout",()=>{
+            this.play.path = "./images/playButton_mouseout.jpg";
+        });
         this.addChild(this.play);
     }
+    resetGame(){
+        this.reset = new Sprite();
+        this.reset.x = 400;
+        this.reset.y = -100;
+        this.reset.height = 50;
+        this.reset.width = 100;
+        this.reset.path = "./images/resetButton_mouseout.jpg";
+        this.reset.elm.addEventListener("click",this._init.bind(this,this.play));
+        this.reset.elm.addEventListener("mousemove",()=>{
+            this.reset.path = "./images/resetButton_mousemove.jpg";
+        });
+        this.reset.elm.addEventListener("mouseout",()=>{
+            this.reset.path = "./images/resetButton_mouseout.jpg";
+        });
+        this.addChild(this.reset);
+    }
     playSound(soundId){
-        this.sound = new Audio("sounds/"+soundId+".wav");
+        this.sound = new Audio("./sounds/"+soundId+".wav");
         this.sound.play();
     }
     _createCards() {
@@ -38,37 +66,32 @@ class Game extends Node {
                 this.playSound(this.soundId[4]);
             },2000);
         },2000);
-        
+
         this.cards = [];
         this.firstCard = this.secondCard = null;
         const tl = gsap.timeline({ paused: true });
         // for 
         for (let index = 0; index < 20;index++){
             this.card = new Card(index+1);
-            this.addChild(this.card)
-            tl.fromTo(this.card.elm,{x:200,y:150, opacity: 0.2},{x:200,y:150,opacity:1, duration: 0.1});
-            tl.fromTo(this.card.elm,{x:200,y:150, opacity: 0},{x:3000,y:3000,opacity:0, duration: 0.1});
+            this.card.elm.addEventListener("click",this.onClickCard.bind(this,this.card));
+            this.card.elm.id = (index%10);
+            this.card.setValue(index%10);
+            this.cards.push(this.card);
+            this.addChild(this.cards[index]);
+            tl.fromTo(this.cards[index].elm,{x: 240,y: 190, opacity: 0.2,zIndex: 0},{x: 240,y: 190,opacity:1, duration: 0.1})
             tl.play();
-            
-        }
+       }
         setTimeout(()=>{
             for (let index = 0; index < 20;index++){
-                this.card = new Card(index+1);
-                this.card.elm.addEventListener("click",this.onClickCard.bind(this,this.card));
-                this.card.elm.id = (index%10);
-                this.card.setValue(index%10);
                 let col = Math.floor(index/5);
                 let row = index % 5;
-                this.addChild(this.card);
-                this.cards.push(this.card);
-                // tl.fromTo(this.card.elm,{x:200,y:150, opacity: 0.2},{x:200,y:150,opacity:1, duration: 0.1});
-                tl.fromTo(this.card,{x: 200,y: 150,opacity: 1},{ duration: 0.2, ease: "back.out(10)", x: row*100,y: col*100 });
+                tl.fromTo(this.cards[index].elm,{x: 240,y: 190,opacity: 1},{ duration: 0.2,zIndex: 1, ease: "back.out(3)", x: row*120,y: col*120 });
                 tl.play();
             }
-        },4000);
+        },2000);
     }
     _createScore(){
-        this.score = 10000;
+        this.score = 0;
         this.scoreLabel = new Label();
         this.scoreLabel.fontSize = 50;
         this.scoreLabel.fontColor = "black";
@@ -79,7 +102,7 @@ class Game extends Node {
         this.label = new Label();
         this.label.id = "score";
         this.label.fontSize = 50;
-        this.label.fontColor = "black";
+        this.label.fontColor = "white";
         this.label.y= -100;
         this.label.x = 170;
         this.label.text = this.score;
@@ -129,17 +152,6 @@ class Game extends Node {
         }
         this.gameComplete();
     }
-    resetGame(){
-        this.reset = new Label();
-        this.reset.elm.addEventListener("click",this._init.bind(this,this.play));
-        this.reset.x = 330;
-        this.reset.y = -100;
-        this.reset.backgroundColor = "white";
-        this.reset.fontSize = 40;
-        this.reset.fontColor = "black";
-        this.reset.text = "Reset";
-        this.addChild(this.reset);
-    }
     gameComplete(){
         let lose = "You lose! Are you wanna try again! (Yes|No)";
         let win = "You win! Are you wanna try again! (Yes|No)";
@@ -164,7 +176,7 @@ class Game extends Node {
                     document.getElementsByTagName("div")[0].innerHTML="";
                     this.playGame();
                 }
-            },1000);
+            },3200);
         }
     }
 }

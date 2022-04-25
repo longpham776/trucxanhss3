@@ -1,4 +1,5 @@
 export class Node { // entity
+
     constructor() {
         this._x = 0;
         this._y = 0;
@@ -8,15 +9,8 @@ export class Node { // entity
         this.children = [];
         this._scaleX = 1;
         this._scaleY = 1;
-        this._zIndex = 0;
     }
-    get zIndex(){
-        return this._zIndex;
-    }
-    set zIndex(value){
-        this._zIndex = value;
-        this.elm.style.zIndex = value;
-    }
+
     get scaleX(){
         return this._scaleX;
     }
@@ -31,7 +25,7 @@ export class Node { // entity
         this._scaleY = value;
         this.elm.style.transform = `scaleY(${this._scaleY})`;
     }
-    
+
     get x() { return this._x; }
     set x(value) {
         this._x = value;
@@ -58,7 +52,6 @@ export class Node { // entity
         this._height = value;
         this.elm.style.height = this._height + "px";
     }
-
     _createElement() {
         let elm = document.createElement("div");
         elm.style.position = "absolute";
@@ -76,7 +69,5 @@ export class Node { // entity
         this.elm.removeChild(node.elm);
         this.children.splice(index, 1);
     }
-
-
 
 }

@@ -4,6 +4,7 @@ export class Sprite extends Node {
         super();
         this._path = "";
     }
+
     get path(){
         return this._path;
     }

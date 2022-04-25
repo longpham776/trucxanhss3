@@ -13,8 +13,9 @@ export class Card extends Node {
     }
     _createSprite() {
         this.sprite = new Sprite();
-        this.sprite.width = 100;
-        this.sprite.height = 100;
+        this.sprite.width = 110;
+        this.sprite.height = 110;
+        this.sprite.elm.style.borderRadius = "20px";
         this.addChild(this.sprite);
     }
     _createCover() {
@@ -22,8 +23,9 @@ export class Card extends Node {
         cover.width = 100;
         cover.height = 100;
         cover.elm.style.display = "block";
-        cover.elm.style.backgroundColor = "orange";
-        cover.elm.style.border = "solid 1px blue";
+        cover.elm.style.backgroundColor = "#30BE96";
+        cover.elm.style.border = "solid 5px #B2FFDA";
+        cover.elm.style.borderRadius = "20px";
         this.cover = cover;
         this.addChild(this.cover);
     }
@@ -57,7 +59,7 @@ export class Card extends Node {
     }
     scaleHideImage() {
         this.sprite.zIndex = 1;
-        gsap.to(this.sprite,{scaleX: 1,scaleY: 1, width: 200, height:200,x:-50,y:-50, duration: 1});
+        gsap.to(this.sprite,{scaleX: 1,scaleY: 1, width: 230, height:230,x:-50,y:-50, duration: 1});
         setTimeout(()=>{
             this.sprite.elm.style.display = "none";
         },1000)
